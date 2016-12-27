@@ -34,8 +34,6 @@ def processRequest(req):
         
         
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
-    print("sender id: ")
-    print(sender_id)   
     send_message(sender_id, "got it, thanks!")
     return {}
 #    
@@ -60,9 +58,11 @@ def send_message(recipient_id, message_text):
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
+    print(params)
     headers = {
         "Content-Type": "application/json"
     }
+    print(headers)
     data = json.dumps({
         "recipient": {
             "id": recipient_id
@@ -71,6 +71,7 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
+    print(data)
     print("send id: ")
     print(recipient_id)
     
