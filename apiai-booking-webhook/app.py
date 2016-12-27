@@ -52,20 +52,12 @@ def processRequest(req):
 #    return res
     
 def send_message(recipient_id, message_text):
-
-    print("dd")
-#    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
-
-    print("token: ")
-    print(os.environ["PAGE_ACCESS_TOKEN"])
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
-    print(params)
     headers = {
         "Content-Type": "application/json"
     }
-    print(headers)
     data = json.dumps({
         "recipient": {
             "id": recipient_id
@@ -74,13 +66,8 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-    print(data)
-    print("send id: ")
-    print(recipient_id)
     
-    print("access_token: ")
-    print(os.environ["PAGE_ACCESS_TOKEN"])
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    r = request.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
