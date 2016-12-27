@@ -67,6 +67,13 @@ def send_message(recipient_id, message_text):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+    print("send id: ")
+    print(recipient_id)
+    
+    print("access_token: ")
+    print(os.environ["PAGE_ACCESS_TOKEN"])
+    
+    
 
 
 def makeYqlQuery(req):
