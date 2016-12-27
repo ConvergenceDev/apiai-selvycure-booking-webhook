@@ -90,6 +90,12 @@ def send_message(recipient_id, message_text):
         }
     })
     
+    print("id: ")
+    print(recipient_id)
+    
+    print("text: ")
+    print(message_text)
+    
     r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
