@@ -53,6 +53,7 @@ def processRequest(req):
     
 def send_message(recipient_id, message_text):
 
+    print("dd")
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     print("token: ")
