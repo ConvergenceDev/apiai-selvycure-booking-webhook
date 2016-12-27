@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 
+from datetime import datetime
 import urllib
 import json
 import os
-import requests
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from flask import request
 from flask import make_response
+import requests
 
 # Flask app should start in global layout
 app = Flask(__name__)
 
+FACEBOOK_SEND_URL = "https://graph.facebook.com/v2.6/me/messages"
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -33,9 +36,8 @@ def processRequest(req):
     if req.get("result").get("action") != "selvyCureBooking":
         return {}
         
-        
     sender_id = req.get("originalRequest").get("data").get("sender").get("id")
-    send_message(sender_id, "got it, thanks!")
+    reserve_message(sender_id)
     return {}
 #    
 #    baseurl = "https://query.yahooapis.com/v1/public/yql?"
@@ -51,6 +53,26 @@ def processRequest(req):
 #    data = json.loads(result)
 #    res = makeWebhookResult(data)
 #    return res
+
+def getMessageReservationTime(str_date):
+    today = datetime.today()
+    today.replace(sencond=today.second+10)
+    return today
+    
+#    booking_time = datetime.strptime(str_date, '%M/%d')
+#    
+#    message_send_time = datetime.today()
+#    message_send_time.month = booking_time.month
+#    message_send_time.day = booking_time.day
+#    
+#    if today > message_send_time:
+#        message_send_time.replace(year=message_send_time.year + 1)
+#    message_send_time.replace(day=message_send_time.day-1)
+
+def reserve_message(sender_id):
+    sched = BackgroundScheduler()
+    sched.add_job(send_message, 'date', run_date=getMessageReservationTime(''), args=(sender_id, "gg"))
+    sched.start()
     
 def send_message(recipient_id, message_text):
     params = {
@@ -68,15 +90,13 @@ def send_message(recipient_id, message_text):
         }
     })
     
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
     print(r.status_code)
     print(r.text)
     
-    
-
 
 def makeYqlQuery(req):
     result = req.get("result")
