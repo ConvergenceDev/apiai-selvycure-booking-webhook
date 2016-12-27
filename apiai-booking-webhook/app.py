@@ -56,7 +56,7 @@ def processRequest(req):
 
 def getMessageReservationTime(str_date):
     today = datetime.today()
-    today.replace(sencond=today.second+10)
+    today.replace(minute=today.minute+1)
     return today
     
 #    booking_time = datetime.strptime(str_date, '%M/%d')
