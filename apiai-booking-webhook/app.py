@@ -56,9 +56,7 @@ def processRequest(req):
 
 def getMessageReservationTime(str_date):
     today = datetime.today()
-    print(today)
-    today.replace(minute=today.minute+1)
-    print(today)
+    today = today.replace(minute=today.minute+1)
     return today
     
 #    booking_time = datetime.strptime(str_date, '%M/%d')
@@ -73,7 +71,7 @@ def getMessageReservationTime(str_date):
 
 def reserve_message(sender_id):
     sched = BackgroundScheduler()
-    sched.add_job(send_message, 'date', run_date=getMessageReservationTime(''), args=(sender_id, "gg"))
+    sched.add_job(send_message, 'date', run_date=getMessageReservationTime(''), args=(sender_id, "내일 예약되어있습니다."))
     sched.start()
     
 def send_message(recipient_id, message_text):
