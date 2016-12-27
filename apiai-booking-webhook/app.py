@@ -33,8 +33,9 @@ def processRequest(req):
         return {}
         
         
-    print("aa")
-    sender_id = "selvasai.convdev@gmail.com"
+    sender_id = req.get("originalRequest").get("data").get("sender")
+    print("sender id: ")
+    print(sender_id)   
     send_message(sender_id, "got it, thanks!")
     return {}
 #    
