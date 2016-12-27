@@ -33,7 +33,7 @@ def processRequest(req):
         return {}
         
         
-    sender_id = req.get("originalRequest").get("data").get("sender")
+    sender_id = req.get("originalRequest").get("data").get("sender").get("id")
     print("sender id: ")
     print(sender_id)   
     send_message(sender_id, "got it, thanks!")
