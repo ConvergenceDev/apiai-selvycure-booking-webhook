@@ -18,6 +18,9 @@ def webhook():
 
     print("Request:")
     print(json.dumps(req, indent=4))
+    
+    print("access_token: ")
+    print(os.environ["PAGE_ACCESS_TOKEN"])
 
     res = processRequest(req)
 
