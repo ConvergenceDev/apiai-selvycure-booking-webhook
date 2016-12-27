@@ -80,6 +80,8 @@ def send_message(recipient_id, message_text):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
+    print(r.status_code)
+    print(r.text)
     
     
 
