@@ -46,7 +46,7 @@ class BookingProcessor(ActionProcessor):
             department = params.get("department")
             message = self.__get_message(booking_date)
             # self.__reserve_message(message)
-            self.__send_medical_certificate(str(symptoms), booking_date, department)
+            # self.__send_medical_certificate(str(symptoms), booking_date, department)
             self.__send_medical_certificate2(str(symptoms), booking_date, department)
 
         except AttributeError as e:
