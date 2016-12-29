@@ -20,10 +20,11 @@ FACEBOOK_SEND_URL = "https://graph.facebook.com/v2.6/me/messages"
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    req = request.get_json(silent=True, force=True)
+    req = request.get_json(silent=True, force=True).decode('utf-8')
+
 
     print("Request:")
-    print(json.dumps(req, indent=4, ensure_ascii=False))
+    print(json.dumps(req, indent=4))
 
     res = process_request(req)
     res = json.dumps(res, indent=4)
