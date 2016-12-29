@@ -34,6 +34,9 @@ class ActionProcessor(object):
 
 
 class BookingProcessor(ActionProcessor):
+    def __init__(self, action, request, token):
+        super(BookingProcessor, self).__init__(action, request, token)
+
     def process_request(self):
         super(BookingProcessor, self).process_request()
 
