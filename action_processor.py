@@ -115,4 +115,4 @@ class BookingProcessor(ActionProcessor):
         r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
         if r.status_code != 200:
             log(r.status_code)
-        log(r.text)
+            log(r.text)
