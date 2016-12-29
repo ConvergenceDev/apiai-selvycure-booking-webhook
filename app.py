@@ -37,7 +37,6 @@ def process_request(req):
     response = None
     try:
         action = req.get("result").get("action")
-        print('action: {0}'.format(action))
 
         if action == APIAI_ACTION_NAME_BOOKING:
             response = BookingProcessor(action, req)
