@@ -23,7 +23,7 @@ def webhook():
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
-    print(json.dumps(req, indent=4))
+    print(json.dumps(req, indent=4, ensure_ascii=False))
 
     res = process_request(req)
     res = json.dumps(res, indent=4)
@@ -35,10 +35,6 @@ def webhook():
 
 def process_request(req):
     response = None
-    try:
-        token = os.environ["PAGE_ACCESS_TOKEN"]
-    except Exception as e:
-        print(e.message)
 
     try:
         action = req.get("result").get("action")
