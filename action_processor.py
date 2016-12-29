@@ -60,10 +60,10 @@ class BookingProcessor(ActionProcessor):
 
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
-        scheduler.add_job(self.__send_message, 'date', run_date=self.__get_message_reservation_time(), args=message)
+        scheduler.add_job(self.send_message, 'date', run_date=self.__get_message_reservation_time(), args=message)
         scheduler.start()
 
-    def __send_message(self, message):
+    def send_message(self, message):
         params = {
             "access_token": os.environ["PAGE_ACCESS_TOKEN"]
         }
