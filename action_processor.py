@@ -14,11 +14,13 @@ class ActionProcessor(object):
     action = None
     request = None
     sender_id = None
+    page_access_token = None
 
-    def __init__(self, action, request):
+    def __init__(self, action, request, token):
         super(ActionProcessor, self).__init__()
         self.action = action
         self.request = request
+        self.page_access_token = token
         self.__init_sender_id()
 
     def __init_sender_id(self):
@@ -64,11 +66,11 @@ class BookingProcessor(ActionProcessor):
         scheduler.start()
 
     def send_message(self, message):
-        print("token: {0}".format(os.environ["PAGE_ACCESS_TOKEN"]))
+        print("token: {0}".format(self.page_access_token))
         print("sender_id: {0}".format(self.sender_id))
 
         params = {
-            "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+            "access_token": self.page_access_token
         }
         headers = {
             "Content-Type": "application/json"
@@ -95,7 +97,7 @@ class BookingProcessor(ActionProcessor):
 
     def __send_medical_certificate(self, symptom):
         params = {
-            "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+            "access_token": self.page_access_token
         }
         headers = {
             "Content-Type": "application/json"
