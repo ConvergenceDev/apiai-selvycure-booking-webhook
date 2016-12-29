@@ -38,11 +38,8 @@ class BookingProcessor(ActionProcessor):
 
         try:
             params = self.request.get("result").get("contexts")[0].get("parameters")
-            print('params: {0}'.format(params))
             booking_date = params.get("date")
-            print('booking_date: {0}'.format(booking_date))
             symptoms = params.get("cold-symptom")
-            print('symptoms: {0}'.format(symptoms))
             department = params.get("department")
             message = self.__get_message(booking_date)
             self.__reserve_message(message)
@@ -86,6 +83,8 @@ class BookingProcessor(ActionProcessor):
         if r.status_code != 200:
             log(r.status_code)
             log(r.text)
+            print(r.status_code)
+            print(r.text)
 
     def __send_medical_certificate(self, symptom):
         params = {
@@ -119,3 +118,5 @@ class BookingProcessor(ActionProcessor):
         if r.status_code != 200:
             log(r.status_code)
             log(r.text)
+            print(r.status_code)
+            print(r.text)
