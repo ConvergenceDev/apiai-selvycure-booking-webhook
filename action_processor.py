@@ -46,8 +46,8 @@ class BookingProcessor(ActionProcessor):
             department = params.get("department")
             message = self.__get_message(booking_date)
             # self.__reserve_message(message)
-            # self.__send_medical_certificate(str(symptoms), booking_date, department)
-            self.__send_medical_certificate2(str(symptoms), booking_date, department)
+            self.__send_medical_certificate(str(symptoms), booking_date, department)
+            # self.__send_medical_certificate2(str(symptoms), booking_date, department)
 
         except AttributeError as e:
             print(e.message)
@@ -108,8 +108,8 @@ class BookingProcessor(ActionProcessor):
                         "elements": [
                             {
                                 "title": "진단서",
-                                "image_url": "http://mrg.bz/287967",
-                                "subtitle": "환자 증상: {0}\n진료 예약 날짜: {1}".format(symptom, booking_date),
+                                "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
+                                "subtitle": "환자 증상: {0}<br>진료 예약 날짜: {1}".format(symptom, booking_date),
                             },
                             {
                                 "title": "원인",
