@@ -152,11 +152,6 @@ class BookingProcessor(ActionProcessor):
                                 "subtitle": "환자 증상: {0} 진료 예약 날짜: {1} 진료과: {2}".format(symptom, booking_date,
                                                                                        department),
                                 "price": 50,
-                            },
-                            {
-                                "title": "감기의 원인",
-                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 감기 바이러스는 사람의 코나 목을 통해 들어와 감염을 일으킨다.",
-                                "price": 50,
                             }
                         ],
                         "summary": {
