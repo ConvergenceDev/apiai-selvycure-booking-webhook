@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import time
 import json
 import os
 
@@ -43,7 +42,7 @@ class BookingProcessor(ActionProcessor):
             department = params.get("department")
             message = self.__get_message(booking_date)
             self.__reserve_message(message)
-            self.__send_medical_certificate(str(symptoms))
+            # self.__send_medical_certificate(str(symptoms))
 
         except AttributeError as e:
             print(e.message)
@@ -60,6 +59,7 @@ class BookingProcessor(ActionProcessor):
 
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
+        print("message: {0}".format(message))
         scheduler.add_job(self.send_message, 'date', run_date=self.__get_message_reservation_time(), args=message)
         scheduler.start()
 
