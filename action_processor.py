@@ -142,25 +142,6 @@ class BookingProcessor(ActionProcessor):
                 "attachment": {
                     "type": "template",
                     "payload": {
-                        "template_type": "generic",
-                        "elements": [
-                            {
-                                "title": "진단서",
-                                "image_url": "http://mrg.bz/287967",
-                                "subtitle": "환자 증상: {0}\n진료 예약 날짜: {1}".format(symptom, booking_date),
-                            },
-                            {
-                                "title": "원인",
-                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 감기 바이러스는 사람의 코나 목을 통해 들어와 감염을 일으킨다.",
-                            }
-                        ]
-                    }
-                }
-            },
-            "message": {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
                         "template_type": "receipt",
                         "recipient_name": "진단서",
                         "order_number": "1",
