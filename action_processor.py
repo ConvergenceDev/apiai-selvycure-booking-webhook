@@ -111,13 +111,12 @@ class BookingProcessor(ActionProcessor):
                             {
                                 "title": "진단서",
                                 "image_url": "http://mrg.bz/287967",
-                                "subtitle": "증상: {0}\n"
-                                            "진료 예약 날짜: {1}\n"
-                                            "진료과: {2}".format(symptom, booking_date, department),
+                                "subtitle": "증상: {0}\n진료 예약 날짜: {1}\n진료과: {2}".format(symptom, booking_date,
+                                                                                      department),
                             },
                             {
                                 "title": "원인",
-                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 그 중 30~50%가 리노바이러스(Rhinovirus)이고 10~15%가 코로나바이러스(Coronavirus)이다. ",
+                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 감기 바이러스는 사람의 코나 목을 통해 들어와 감염을 일으킨다.",
                             }
                         ]
                     }
