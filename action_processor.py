@@ -114,9 +114,12 @@ class BookingProcessor(ActionProcessor):
             }
         })
 
-        r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
-        if r.status_code != 200:
-            log(r.status_code)
-            log(r.text)
-            print(r.status_code)
-            print(r.text)
+        try:
+            r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
+            if r.status_code != 200:
+                log(r.status_code)
+                log(r.text)
+                print(r.status_code)
+                print(r.text)
+        except Exception as e:
+            print(e.message)
