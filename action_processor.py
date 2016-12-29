@@ -93,9 +93,6 @@ class BookingProcessor(ActionProcessor):
             log(r.text)
 
     def __send_medical_certificate(self, symptom, booking_date, department):
-        params = {
-            "access_token": self.page_access_token
-        }
         data = json.dumps({
             "recipient": {
                 "id": self.sender_id
@@ -108,8 +105,8 @@ class BookingProcessor(ActionProcessor):
                         "elements": [
                             {
                                 "title": "진단서",
-                                "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
-                                "subtitle": "환자 증상: {0}, 진료 예약 날짜: {1}, 진료과: {2}".format(symptom, booking_date,
+                                "image_url": "https://cdn.pixabay.com/photo/2016/01/19/15/05/computer-1149148_960_720.jpg",
+                                "subtitle": "[환자 증상] {0} [진료 예약 날짜] {1} [진료과] {2}".format(symptom, booking_date,
                                                                                          department),
                             },
                             {
@@ -141,49 +138,6 @@ class BookingProcessor(ActionProcessor):
         if r.status_code != 200:
             log(r.status_code)
             log(r.text)
-
-    def __send_medical_certificate2(self, symptom, booking_date, department):
         params = {
             "access_token": self.page_access_token
         }
-        data = json.dumps({
-            "recipient": {
-                "id": self.sender_id
-            },
-            "message": {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "list",
-                        "elements": [
-                            {
-                                "title": "진단서",
-                                "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
-                                "subtitle": "환자 증상: {0}, 진료 예약 날짜: {1}, 진료과: {2}".format(symptom, booking_date,
-                                                                                         department),
-                            },
-                            {
-                                "title": "감기 원인",
-                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 감기 바이러스는 사람의 코나 목을 통해 들어와 감염을 일으킨다.",
-                            },
-                            {
-                                "title": "감기 관련 증상",
-                                "subtitle": "기침, 인두통 및 인후통, 비루, 비폐색, 재채기, 근육통, 발열",
-                            },
-                            {
-                                "title": "진료과",
-                                "subtitle": "가정의학과, 감염내과, 호흡기내과, 소아청소년과, 이비인후과",
-                            }
-                        ]
-                    }
-                }
-            }
-        })
-        headers = {
-            "Content-Type": "application/json"
-        }
-
-        r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
-        if r.status_code != 200:
-            log(r.status_code)
-            log(r.text)
