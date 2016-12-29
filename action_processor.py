@@ -129,7 +129,6 @@ class BookingProcessor(ActionProcessor):
             log(r.status_code)
             log(r.text)
 
-
     def __send_medical_certificate2(self, symptom, booking_date, department):
         params = {
             "access_token": self.page_access_token
@@ -150,7 +149,8 @@ class BookingProcessor(ActionProcessor):
                         "elements": [
                             {
                                 "title": "진단서",
-                                "subtitle": "환자 증상: {0}<br>진료 예약 날짜: {1}<br>진료과: {2}".format(symptom, booking_date, department),
+                                "subtitle": "환자 증상: {0} 진료 예약 날짜: {1} 진료과: {2}".format(symptom, booking_date,
+                                                                                       department),
                                 "price": 50,
                             },
                             {
