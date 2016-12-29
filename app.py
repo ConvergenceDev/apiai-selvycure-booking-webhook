@@ -39,7 +39,7 @@ def process_request(req):
         action = req.get("result").get("action")
 
         if action == APIAI_ACTION_NAME_BOOKING:
-            response = BookingProcessor()
+            response = BookingProcessor(action, req)
     except AttributeError:
         print("can't extract action.")
         return {}
