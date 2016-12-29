@@ -2,7 +2,6 @@
 
 from datetime import datetime
 import json
-import os
 
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
@@ -47,7 +46,7 @@ class BookingProcessor(ActionProcessor):
             department = params.get("department")
             message = self.__get_message(booking_date)
             # self.__reserve_message(message)
-            self.__send_medical_certificate(str(symptoms))
+            self.__send_medical_certificate(str(symptoms), booking_date, department)
 
         except AttributeError as e:
             print(e.message)
@@ -87,18 +86,12 @@ class BookingProcessor(ActionProcessor):
             }
         })
 
-        try:
-            r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
-            if r.status_code != 200:
-                log(r.status_code)
-                log(r.text)
-                print(r.status_code)
-                print(r.text)
+        r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
+        if r.status_code != 200:
+            log(r.status_code)
+            log(r.text)
 
-        except Exception as e:
-            print(e.message)
-
-    def __send_medical_certificate(self, symptom):
+    def __send_medical_certificate(self, symptom, booking_date, department):
         params = {
             "access_token": self.page_access_token
         }
@@ -118,7 +111,13 @@ class BookingProcessor(ActionProcessor):
                             {
                                 "title": "진단서",
                                 "image_url": "http://mrg.bz/287967",
-                                "subtitle": "증상: {0}".format(symptom),
+                                "subtitle": "증상: {0}\n"
+                                            "진료 예약 날짜: {1}\n"
+                                            "진료과: {2}".format(symptom, booking_date, department),
+                            },
+                            {
+                                "title": "원인",
+                                "subtitle": "200여개 이상의 서로 다른 종류의 바이러스가 감기를 일으킨다. 그 중 30~50%가 리노바이러스(Rhinovirus)이고 10~15%가 코로나바이러스(Coronavirus)이다. ",
                             }
                         ]
                     }
@@ -126,12 +125,7 @@ class BookingProcessor(ActionProcessor):
             }
         })
 
-        try:
-            r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
-            if r.status_code != 200:
-                log(r.status_code)
-                log(r.text)
-                print(r.status_code)
-                print(r.text)
-        except Exception as e:
-            print(e.message)
+        r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
+        if r.status_code != 200:
+            log(r.status_code)
+            log(r.text)
