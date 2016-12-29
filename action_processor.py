@@ -42,7 +42,7 @@ class BookingProcessor(ActionProcessor):
         try:
             params = self.request.get("result").get("contexts")[0].get("parameters")
             booking_date = params.get("date")
-            symptoms = ",".join(symptom.encode for symptom in params.get("cold-symptom"))
+            symptoms = ",".join(symptom.encode('utf-8') for symptom in params.get("cold-symptom"))
             department = params.get("department").encode('utf-8')
             message = self.__get_message(booking_date)
             # self.__reserve_message(message)
