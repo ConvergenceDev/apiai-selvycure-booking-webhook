@@ -36,10 +36,15 @@ def webhook():
 def process_request(req):
     response = None
     try:
+        token = os.environ["PAGE_ACCESS_TOKEN"]
+    except Exception as e:
+        print(e.message)
+
+    try:
         action = req.get("result").get("action")
 
         if action == APIAI_ACTION_NAME_BOOKING:
-            response = BookingProcessor(action, req)
+            response = BookingProcessor(action, req, os.environ["PAGE_ACCESS_TOKEN"])
     except AttributeError:
         print("can't extract action.")
         return {}
