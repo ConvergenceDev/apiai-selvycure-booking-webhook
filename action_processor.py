@@ -95,9 +95,6 @@ class BookingProcessor(ActionProcessor):
         params = {
             "access_token": self.page_access_token
         }
-        headers = {
-            "Content-Type": "application/json"
-        }
         data = json.dumps({
             "recipient": {
                 "id": self.sender_id
@@ -111,8 +108,7 @@ class BookingProcessor(ActionProcessor):
                             {
                                 "title": "진단서",
                                 "image_url": "http://mrg.bz/287967",
-                                "subtitle": "증상: {0}\n진료 예약 날짜: {1}\n진료과: {2}".format(symptom, booking_date,
-                                                                                      department),
+                                "subtitle": "환자 증상: {0}\n진료 예약 날짜: {1}".format(symptom, booking_date),
                             },
                             {
                                 "title": "원인",
@@ -123,6 +119,9 @@ class BookingProcessor(ActionProcessor):
                 }
             }
         })
+        headers = {
+            "Content-Type": "application/json"
+        }
 
         r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
         if r.status_code != 200:
