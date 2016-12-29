@@ -64,6 +64,9 @@ class BookingProcessor(ActionProcessor):
         scheduler.start()
 
     def send_message(self, message):
+        print("token: {0}".format(os.environ["PAGE_ACCESS_TOKEN"]))
+        print("sender_id: {0}".format(self.sender_id))
+
         params = {
             "access_token": os.environ["PAGE_ACCESS_TOKEN"]
         }
