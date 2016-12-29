@@ -23,7 +23,7 @@ def webhook():
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
-    print(json.dumps(req, indent=4).encode('utf-8'))
+    print(json.dumps(req, indent=4))
 
     res = process_request(req)
     res = json.dumps(res, indent=4)
