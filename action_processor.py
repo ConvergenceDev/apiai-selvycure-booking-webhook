@@ -92,6 +92,14 @@ class BookingProcessor(ActionProcessor):
             log(r.text)
 
     def __send_medical_certificate(self, symptom, booking_date, department):
+        params = {
+            "access_token": self.page_access_token
+        }
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+
         data = json.dumps({
             "recipient": {
                 "id": self.sender_id
@@ -106,7 +114,7 @@ class BookingProcessor(ActionProcessor):
                                 "title": "진단서",
                                 "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
                                 "subtitle": "[환자 증상] {0} [진료 예약 날짜] {1} [진료과] {2}".format(symptom, booking_date,
-                                                                                         department),
+                                                                                          department),
                             },
                             {
                                 "title": "감기 원인",
@@ -129,14 +137,8 @@ class BookingProcessor(ActionProcessor):
                 }
             }
         })
-        headers = {
-            "Content-Type": "application/json"
-        }
 
         r = requests.post(FACEBOOK_SEND_URL, params=params, headers=headers, data=data)
         if r.status_code != 200:
             log(r.status_code)
             log(r.text)
-        params = {
-            "access_token": self.page_access_token
-        }
