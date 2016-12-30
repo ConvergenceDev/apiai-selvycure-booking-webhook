@@ -45,7 +45,7 @@ class BookingProcessor(ActionProcessor):
             symptoms = ",".join(symptom.encode('utf-8') for symptom in params.get("cold-symptom"))
             department = params.get("department").encode('utf-8')
             message = self.__get_message(booking_date)
-            # self.__reserve_message(message)
+            self.__reserve_message(message)
             self.__send_medical_certificate(symptoms, booking_date, department)
 
         except AttributeError as e:
@@ -64,7 +64,7 @@ class BookingProcessor(ActionProcessor):
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
         print("message: {0}".format(message))
-        scheduler.add_job(self.send_message, 'date', run_date=self.__get_message_reservation_time(), args=message)
+        scheduler.add_job(self.send_message, 'date', run_date=self.__get_message_reservation_time(), args=(self, message))
         scheduler.start()
 
     def send_message(self, message):
