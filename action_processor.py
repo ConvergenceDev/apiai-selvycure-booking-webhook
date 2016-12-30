@@ -65,7 +65,7 @@ class BookingProcessor(ActionProcessor):
         scheduler = BackgroundScheduler()
         print("message: {0}".format(message))
         scheduler.add_job(self.send_message, 'date', run_date=self.get_message_reservation_time(),
-                          args=(self, message))
+                          args=message)
         scheduler.start()
 
     def send_message(self, message):
