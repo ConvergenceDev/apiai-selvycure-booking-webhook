@@ -56,7 +56,8 @@ class BookingProcessor(ActionProcessor):
     def __get_message(self, booking_date):
         return "{0} 병원 예약되어 있습니다.".format(booking_date)
 
-    def get_message_reservation_time(self):
+    @staticmethod
+    def get_message_reservation_time():
         time = datetime.today()
         time = time.replace(second=time.second + 30)
         print("time: {0}".format(time))
@@ -65,23 +66,25 @@ class BookingProcessor(ActionProcessor):
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
         print("message: {0}".format(message))
-        scheduler.add_job(self.send_message, 'date', run_date=self.get_message_reservation_time(),
-                          args=message)
+        scheduler.add_job(BookingProcessor.send_message, 'date',
+                          run_date=BookingProcessor.get_message_reservation_time(),
+                          args=(self.page_access_token, self.sender_id, message))
         scheduler.start()
 
-    def send_message(self, message):
-        print("token: {0}".format(self.page_access_token))
-        print("sender_id: {0}".format(self.sender_id))
+    @staticmethod
+    def send_message(page_access_token, sender_id, message):
+        print("token: {0}".format(page_access_token))
+        print("sender_id: {0}".format(sender_id))
 
         params = {
-            "access_token": self.page_access_token
+            "access_token": page_access_token
         }
         headers = {
             "Content-Type": "application/json"
         }
         data = json.dumps({
             "recipient": {
-                "id": self.sender_id
+                "id": sender_id
             },
             "message": {
                 "text": message
