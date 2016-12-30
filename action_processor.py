@@ -59,6 +59,7 @@ class BookingProcessor(ActionProcessor):
     def get_message_reservation_time(self):
         time = datetime.today()
         time = time.replace(second=time.second + 30)
+        print("time: {0}".format(time))
         return time
 
     def __reserve_message(self, message):
