@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 from datetime import datetime
 import json
 
@@ -15,12 +15,18 @@ class ActionProcessor(object):
     sender_id = None
     page_access_token = None
 
-    def __init__(self, action, request, token):
+    def __init__(self, action, request):
         super(ActionProcessor, self).__init__()
         self.action = action
         self.request = request
-        self.page_access_token = token
         self.__init_sender_id()
+        self.__init_page_token_acces()
+
+    def __init_page_token_acces(self):
+        try:
+            self.page_access_token = os.environ["PAGE_ACCESS_TOKEN"]
+        except AttributeError:
+            print("can't extract page token access.")
 
     def __init_sender_id(self):
         try:
@@ -33,8 +39,8 @@ class ActionProcessor(object):
 
 
 class BookingProcessor(ActionProcessor):
-    def __init__(self, action, request, token):
-        super(BookingProcessor, self).__init__(action, request, token)
+    def __init__(self, action, request):
+        super(BookingProcessor, self).__init__(action, request)
 
     def process_request(self):
         super(BookingProcessor, self).process_request()
@@ -44,8 +50,7 @@ class BookingProcessor(ActionProcessor):
             booking_date = params.get("date")
             symptoms = ",".join(symptom.encode('utf-8') for symptom in params.get("cold-symptom"))
             department = params.get("department").encode('utf-8')
-            message = self.__get_message(booking_date)
-            self.__reserve_message(message)
+            self.__reserve_message(booking_date)
             self.__send_medical_certificate(symptoms, booking_date, department)
 
         except AttributeError as e:
@@ -53,7 +58,17 @@ class BookingProcessor(ActionProcessor):
 
         return {}
 
-    def __get_message(self, booking_date):
+    def __reserve_message(self, booking_date):
+        message = BookingProcessor.get_message(booking_date)
+        time = BookingProcessor.get_message_reservation_time()
+
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(BookingProcessor.send_message, 'date', run_date=time,
+                          args=(self.page_access_token, self.sender_id, message))
+        scheduler.start()
+
+    @staticmethod
+    def get_message(booking_date):
         return "{0} 병원 예약되어 있습니다.".format(booking_date)
 
     @staticmethod
@@ -62,27 +77,16 @@ class BookingProcessor(ActionProcessor):
         time = time.replace(second=time.second + 30)
         return time
 
-    def __reserve_message(self, message):
-        scheduler = BackgroundScheduler()
-        print("message: {0}".format(message))
-        time = BookingProcessor.get_message_reservation_time()
-        print("time: {0}".format(time))
-        scheduler.add_job(BookingProcessor.send_message, 'date',
-                          run_date=time,
-                          args=(self.page_access_token, self.sender_id, message))
-        scheduler.start()
-
     @staticmethod
     def send_message(page_access_token, sender_id, message):
-        print("token: {0}".format(page_access_token))
-        print("sender_id: {0}".format(sender_id))
-
         params = {
             "access_token": page_access_token
         }
+
         headers = {
             "Content-Type": "application/json"
         }
+
         data = json.dumps({
             "recipient": {
                 "id": sender_id
