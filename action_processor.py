@@ -56,7 +56,7 @@ class BookingProcessor(ActionProcessor):
     def __get_message(self, booking_date):
         return "{0} 병원 예약되어 있습니다.".format(booking_date)
 
-    def __get_message_reservation_time(self):
+    def get_message_reservation_time(self):
         time = datetime.today()
         time = time.replace(second=time.second + 30)
         return time
@@ -64,7 +64,8 @@ class BookingProcessor(ActionProcessor):
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
         print("message: {0}".format(message))
-        scheduler.add_job(self.send_message, 'date', run_date=self.__get_message_reservation_time(), args=(self, message))
+        scheduler.add_job(self.send_message, 'date', run_date=self.get_message_reservation_time(),
+                          args=(self, message))
         scheduler.start()
 
     def send_message(self, message):
