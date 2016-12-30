@@ -60,14 +60,15 @@ class BookingProcessor(ActionProcessor):
     def get_message_reservation_time():
         time = datetime.today()
         time = time.replace(second=time.second + 30)
-        print("time: {0}".format(time))
         return time
 
     def __reserve_message(self, message):
         scheduler = BackgroundScheduler()
         print("message: {0}".format(message))
+        time = BookingProcessor.get_message_reservation_time()
+        print("time: {0}".format(time))
         scheduler.add_job(BookingProcessor.send_message, 'date',
-                          run_date=BookingProcessor.get_message_reservation_time(),
+                          run_date=time,
                           args=(self.page_access_token, self.sender_id, message))
         scheduler.start()
 
