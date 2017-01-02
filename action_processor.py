@@ -122,7 +122,8 @@ class BookingProcessor(ActionProcessor):
                         "elements": [
                             {
                                 "title": "예약 확인",
-                                "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
+                                # "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
+                                "image_url": "http://dbscthumb.phinf.naver.net/2765_000_1/20131013154801108_XDA9SDAD9.jpg/60050.jpg?type=m250&wm=N",
                                 "subtitle": "[환자 증상] {0} [진료 예약 날짜] {1} [진료과] {2}".format(symptom, booking_date,
                                                                                           department),
                             },
