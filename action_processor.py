@@ -121,7 +121,7 @@ class BookingProcessor(ActionProcessor):
                         "template_type": "generic",
                         "elements": [
                             {
-                                "title": "진단서",
+                                "title": "예약 확인",
                                 "image_url": "https://cdn.pixabay.com/photo/2013/07/13/13/34/diagnostics-161140_960_720.png",
                                 "subtitle": "[환자 증상] {0} [진료 예약 날짜] {1} [진료과] {2}".format(symptom, booking_date,
                                                                                           department),
